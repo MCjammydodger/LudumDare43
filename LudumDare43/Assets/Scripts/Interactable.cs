@@ -28,16 +28,16 @@ public class Interactable : MonoBehaviour {
     
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
     }
 
     // Use this for initialization
     void Start () {
+        player = GameManager.instance.Player;
         SpawnCanvas();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 		if(Vector3.Distance(player.transform.position, transform.position) <= distance)
         {
             buttonPromptCanvas.gameObject.SetActive(true);

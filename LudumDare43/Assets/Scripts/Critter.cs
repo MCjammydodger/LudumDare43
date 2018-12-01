@@ -13,12 +13,13 @@ public class Critter : MonoBehaviour {
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
-        player = FindObjectOfType<Player>();
     }
 
     // Use this for initialization
     void Start () {
         trapped = true;
+        player = GameManager.instance.Player;
+        GameManager.instance.RegisterCritter(this);
 	}
 	
 	// Update is called once per frame
@@ -32,5 +33,6 @@ public class Critter : MonoBehaviour {
     public void Free()
     {
         trapped = false;
+        player.AddNewCritter(this);
     }
 }

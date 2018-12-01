@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 
     private Vector3 movementVector;
 
+    private List<Critter> followingCritters;
+
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         movementVector = new Vector3();
+        followingCritters = new List<Critter>();
 	}
 	
 	// Update is called once per frame
@@ -67,5 +70,15 @@ public class Player : MonoBehaviour {
             lookRotation.SetLookRotation(movementVector);
             transform.rotation = lookRotation;
         }
+    }
+
+    public void AddNewCritter(Critter critter)
+    {
+        followingCritters.Add(critter);
+    }
+
+    public int GetFollowingCrittersCount()
+    {
+        return followingCritters.Count;
     }
 }
