@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class Critter : MonoBehaviour {
 
+    [SerializeField]
+    private Renderer renderer;
+
     public enum State { TRAPPED, FOLLOWING, DEAD, HELD};
 
     private State currentState;
@@ -82,5 +85,10 @@ public class Critter : MonoBehaviour {
         rb.isKinematic = false;
         rb.AddForce(force, ForceMode.VelocityChange);
         timeSinceThrown = 0;
+    }
+
+    public void SetColour(Color colour)
+    {
+        renderer.material.color = colour;
     }
 }

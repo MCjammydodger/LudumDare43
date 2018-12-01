@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 
     private List<Critter> critters;
 
+    private Color[] critterColours = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.black, Color.white, Color.cyan, Color.grey};
+
 	// Use this for initialization
 	void Awake () {
         instance = this;
@@ -42,6 +44,10 @@ public class GameManager : MonoBehaviour {
     public void RegisterCritter(Critter critter)
     {
         critters.Add(critter);
+        if(critters.Count - 1 < critterColours.Length)
+        {
+            critter.SetColour(critterColours[critters.Count - 1]);
+        }
     }
 
     public void Finished()
