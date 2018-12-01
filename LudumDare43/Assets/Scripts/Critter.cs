@@ -44,9 +44,16 @@ public class Critter : MonoBehaviour {
         if (currentState == State.FOLLOWING)
         {
             navAgent.SetDestination(player.transform.position);
-            if(Vector3.Distance(player.transform.position, transform.position) > 15)
+            if(Vector3.Distance(player.transform.position, transform.position) > 10)
             {
-                navAgent.Warp(player.transform.position);
+                // If the critter is far from the player and there is no path, it has probably got stuck
+                // and so should be teleported to the player.
+                NavMeshPath path = new NavMeshPath();
+                navAgent.CalculatePath(player.transform.position, path);
+                if(path.status != NavMeshPathStatus.PathComplete)
+                {
+                    navAgent.Warp(player.transform.position);
+                }
             }
         }
 
