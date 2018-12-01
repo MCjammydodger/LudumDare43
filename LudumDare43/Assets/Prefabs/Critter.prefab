@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94fbbc0ba4b88e847abaa18eb6387105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 23269653002996590}
+  critterRenderer: {fileID: 23269653002996590}
   id: 0
 --- !u!195 &195062823575332030
 NavMeshAgent:

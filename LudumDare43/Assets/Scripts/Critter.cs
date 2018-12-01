@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Critter : MonoBehaviour {
 
     [SerializeField]
-    private Renderer renderer;
+    private Renderer critterRenderer;
 
     public enum State { TRAPPED, FOLLOWING, DEAD, HELD};
 
@@ -56,6 +56,14 @@ public class Critter : MonoBehaviour {
                     navAgent.Warp(player.transform.position);
                 }
             }
+            if(player.IsHoldingCritter())
+            {
+                interactable.enabled = false;
+            }
+            else
+            {
+                interactable.enabled = true;
+            }
         }
 
         if(currentState == State.HELD)
@@ -66,17 +74,28 @@ public class Critter : MonoBehaviour {
                 // Wait a second before checking the velocity so this block doesn't execute straight after a throw.
                 if (timeSinceThrown > 1 && rb.velocity == Vector3.zero)
                 {
-                    rb.isKinematic = true;
-                    currentState = State.FOLLOWING;
-                    navAgent.enabled = true;
-                    navAgent.isStopped = false;
-                    interactable.enabled = true;
+                    HeldToFollow();
+                }
+                // May have been thrown out of the map.
+                if(timeSinceThrown > 10)
+                {
+                    transform.position = player.transform.position;
+                    HeldToFollow();
                 }
             }
         }
 
         timeSinceLastCollision += Time.deltaTime;
 	}
+
+    private void HeldToFollow()
+    {
+        rb.isKinematic = true;
+        currentState = State.FOLLOWING;
+        navAgent.enabled = true;
+        navAgent.isStopped = false;
+        interactable.enabled = true;
+    }
 
     public void Free()
     {
@@ -111,7 +130,7 @@ public class Critter : MonoBehaviour {
 
     public void SetColour(Color colour)
     {
-        renderer.material.color = colour;
+        critterRenderer.material.color = colour;
     }
 
     private void OnCollisionEnter(Collision collision)

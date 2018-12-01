@@ -81,6 +81,13 @@ public class GameManager : MonoBehaviour {
                     break;
             }
         }
+        SaveLoad.LevelData data = new SaveLoad.LevelData();
+        data.levelNumber = SceneManager.GetActiveScene().buildIndex;
+        data.completed = true;
+        data.totalCritters = critters.Count;
+        data.foundCritters = critters.Count - trapped;
+        data.savedCritters = saved;
+        SaveLoad.SaveLevel(data);
         endScreen.SetStats(critters.Count, saved, trapped, sacrificed);
         endScreen.gameObject.SetActive(true);
     }
@@ -125,5 +132,11 @@ public class GameManager : MonoBehaviour {
     public Transform GetPlayerSpawnPoint()
     {
         return playerSpawnPoint;
+    }
+
+    public void ReturnToMenu()
+    {
+        ResumeGame();
+        SceneManager.LoadScene(0);
     }
 }
