@@ -22,6 +22,7 @@ public class Critter : MonoBehaviour {
     private int health = 4;
 
     private float timeSinceThrown = 0;
+    private float timeSinceLastCollision = 0;
 
     private void Awake()
     {
@@ -73,6 +74,8 @@ public class Critter : MonoBehaviour {
                 }
             }
         }
+
+        timeSinceLastCollision += Time.deltaTime;
 	}
 
     public void Free()
@@ -89,11 +92,14 @@ public class Critter : MonoBehaviour {
 
     public void PickUp()
     {
-        navAgent.isStopped = true;
-        navAgent.enabled = false;
-        currentState = State.HELD;
-        interactable.enabled = false;
-        player.PickUpCritter(this);
+        if (!player.IsHoldingCritter())
+        {
+            navAgent.isStopped = true;
+            navAgent.enabled = false;
+            currentState = State.HELD;
+            interactable.enabled = false;
+            player.PickUpCritter(this);
+        }
     }
 
     public void Throw(Vector3 force)
@@ -110,8 +116,10 @@ public class Critter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (currentState == State.HELD)
+        // Don't deal damage if damage was just done, since it's probably just colliding with the same object again.
+        if (currentState == State.HELD && timeSinceLastCollision > 1)
         {
+            timeSinceLastCollision = 0;
             health--;
             GameManager.instance.UpdateCritterHealth(this);
             if (health <= 0)

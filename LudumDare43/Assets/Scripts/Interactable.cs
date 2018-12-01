@@ -56,6 +56,7 @@ public class Interactable : MonoBehaviour {
     void SpawnCanvas()
     {
         buttonPromptCanvas = Instantiate(buttonPromptCanvasPrefab, transform, false);
+        buttonPromptCanvas.transform.localPosition = new Vector3(0, 2, 0);
         buttonPromptCanvas.SetText(inputToText[input]);
     }
 

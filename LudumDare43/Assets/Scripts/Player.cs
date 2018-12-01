@@ -133,6 +133,11 @@ public class Player : MonoBehaviour {
         lineRenderer.enabled = true;
     }
 
+    public bool IsHoldingCritter()
+    {
+        return heldCritter != null;
+    }
+
     private void ThrowCritter()
     {
         heldCritter.transform.parent = null;
