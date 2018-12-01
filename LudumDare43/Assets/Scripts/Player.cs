@@ -10,6 +10,8 @@ public class Player : MonoBehaviour {
     private float jumpSpeed = 2.0f;
     [SerializeField]
     private float throwStrength = 2.0f;
+    [SerializeField]
+    private LineRenderer lineRenderer;
 
     [SerializeField]
     private Transform hand;
@@ -21,6 +23,8 @@ public class Player : MonoBehaviour {
 
     private Critter heldCritter;
 
+    private Vector3 throwDirection = new Vector3(0, 1.1f, 2);
+
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
@@ -30,15 +34,26 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         movementVector = new Vector3();
+        lineRenderer.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         UpdateMovement();
+
         if(Input.GetButtonDown("CritterInteract") && heldCritter != null)
         {
             ThrowCritter();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (heldCritter != null)
+        {
+            DrawTrajectory();
+        }
+
     }
 
     private void UpdateMovement()
@@ -85,17 +100,36 @@ public class Player : MonoBehaviour {
         }
     }
 
+    private void DrawTrajectory()
+    {
+        Vector3 pos = heldCritter.transform.position;
+        Vector3 vel = transform.TransformVector(throwDirection) * throwStrength;
+
+        int totalPoints = 100;
+        lineRenderer.positionCount = totalPoints;
+
+        for(int i = 0; i < totalPoints; i++)
+        {
+            vel += Physics.gravity * Time.fixedDeltaTime;
+            pos += vel * Time.fixedDeltaTime;
+
+            lineRenderer.SetPosition(i, pos);
+        }
+    }
+
     public void PickUpCritter(Critter critter)
     {
         critter.transform.position = hand.position;
         critter.transform.parent = hand;
         heldCritter = critter;
+        lineRenderer.enabled = true;
     }
 
     private void ThrowCritter()
     {
         heldCritter.transform.parent = null;
-        heldCritter.Throw(transform.TransformVector((new Vector3(0, 1.1f, 2))) * throwStrength);
+        heldCritter.Throw(transform.TransformVector(throwDirection) * throwStrength);
         heldCritter = null;
+        lineRenderer.enabled = false;
     }
 }
