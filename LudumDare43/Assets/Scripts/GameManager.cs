@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -9,17 +9,29 @@ public class GameManager : MonoBehaviour {
 
     public Player Player { private set; get; }
 
+    [SerializeField]
+    private Transform playerSpawnPoint;
+    [SerializeField]
+    private CameraFollow cameraFollow;
+    [SerializeField]
+    private EndScreen endScreen;
+
+    [SerializeField]
+    private Player playerPrefab;
+
     private List<Critter> critters;
 
 	// Use this for initialization
 	void Awake () {
         instance = this;
-        Player = FindObjectOfType<Player>();
+        Player = Instantiate(playerPrefab, playerSpawnPoint.position, playerSpawnPoint.rotation);
+        cameraFollow.SetTarget(Player.transform);
 	}
 
     private void Start()
     {
         critters = new List<Critter>();
+        endScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,7 +47,24 @@ public class GameManager : MonoBehaviour {
     public void Finished()
     {
         PauseGame();
-        Debug.Log("You finished! You saved " + Player.GetFollowingCrittersCount() + " critters out of " + critters.Count);
+        int saved = 0, trapped = 0, sacrificed = 0;
+        foreach(Critter critter in critters)
+        {
+            switch(critter.GetCurrentState())
+            {
+                case Critter.State.TRAPPED:
+                    trapped++;
+                    break;
+                case Critter.State.FOLLOWING:
+                    saved++;
+                    break;
+                case Critter.State.DEAD:
+                    sacrificed++;
+                    break;
+            }
+        }
+        endScreen.SetStats(critters.Count, saved, trapped, sacrificed);
+        endScreen.gameObject.SetActive(true);
     }
 
     public void PauseGame()
@@ -57,5 +86,11 @@ public class GameManager : MonoBehaviour {
     public bool IsGamePaused()
     {
         return Time.timeScale == 0;
+    }
+
+    public void RestartLevel()
+    {
+        ResumeGame();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -5,10 +5,12 @@ using UnityEngine.AI;
 
 public class Critter : MonoBehaviour {
 
+    public enum State { TRAPPED, FOLLOWING, DEAD};
+
+    private State currentState;
+
     private Player player;
     private NavMeshAgent navAgent;
-
-    private bool trapped;
 
     private void Awake()
     {
@@ -17,14 +19,14 @@ public class Critter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        trapped = true;
+        currentState = State.TRAPPED;
         player = GameManager.instance.Player;
         GameManager.instance.RegisterCritter(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!trapped)
+        if (currentState == State.FOLLOWING)
         {
             navAgent.SetDestination(player.transform.position);
         }
@@ -32,7 +34,12 @@ public class Critter : MonoBehaviour {
 
     public void Free()
     {
-        trapped = false;
+        currentState = State.FOLLOWING;
         player.AddNewCritter(this);
+    }
+
+    public State GetCurrentState()
+    {
+        return currentState;
     }
 }
