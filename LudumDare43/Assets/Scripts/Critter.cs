@@ -70,11 +70,11 @@ public class Critter : MonoBehaviour {
 
     public void PickUp()
     {
-        player.PickUpCritter(this);
-        interactable.enabled = false;
-        currentState = State.HELD;
         navAgent.isStopped = true;
         navAgent.enabled = false;
+        currentState = State.HELD;
+        interactable.enabled = false;
+        player.PickUpCritter(this);
     }
 
     public void Throw(Vector3 force)

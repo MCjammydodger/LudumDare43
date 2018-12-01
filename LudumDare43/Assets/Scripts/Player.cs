@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {
     private float throwStrength = 2.0f;
     [SerializeField]
     private LineRenderer lineRenderer;
+    [SerializeField]
+    Animator animator;
 
     [SerializeField]
     private Transform hand;
@@ -74,6 +76,8 @@ public class Player : MonoBehaviour {
         // Rotate player to face the direction they are moving.
         RotatePlayer(inputVector);
 
+        animator.SetFloat("Speed", movementVector.sqrMagnitude);
+
         if (Input.GetButtonDown("Jump") && cc.isGrounded)
         {
             movementVector.y = jumpSpeed;
@@ -131,5 +135,6 @@ public class Player : MonoBehaviour {
         heldCritter.Throw(transform.TransformVector(throwDirection) * throwStrength);
         heldCritter = null;
         lineRenderer.enabled = false;
+        animator.SetTrigger("Throw");
     }
 }
