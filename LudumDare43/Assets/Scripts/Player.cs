@@ -38,5 +38,12 @@ public class Player : MonoBehaviour {
 
         cc.Move(movementVector * walkSpeed * Time.deltaTime);
 
-	}
+        // Rotate player to face the direction they are moving.
+        if (movementVector != Vector3.zero)
+        {
+            Quaternion lookRotation = new Quaternion();
+            lookRotation.SetLookRotation(movementVector);
+            transform.rotation = lookRotation;
+        }
+    }
 }
