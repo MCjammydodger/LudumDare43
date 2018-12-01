@@ -10,12 +10,16 @@ public class Critter : MonoBehaviour {
 
     public enum State { TRAPPED, FOLLOWING, DEAD, HELD};
 
+    public int id;
+
     private State currentState;
 
     private Player player;
     private NavMeshAgent navAgent;
     private Interactable interactable;
     private Rigidbody rb;
+
+    private int health = 4;
 
     private float timeSinceThrown = 0;
 
@@ -64,6 +68,7 @@ public class Critter : MonoBehaviour {
     {
         currentState = State.FOLLOWING;
         interactable.enabled = true;
+        GameManager.instance.CollectedCritter(this);
     }
 
     public State GetCurrentState()
@@ -90,5 +95,19 @@ public class Critter : MonoBehaviour {
     public void SetColour(Color colour)
     {
         renderer.material.color = colour;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (currentState == State.HELD)
+        {
+            health--;
+            if (health <= 0)
+            {
+                currentState = State.DEAD;
+                GameManager.instance.KilledCritter(this);
+                gameObject.SetActive(false);
+            }
+        }
     }
 }

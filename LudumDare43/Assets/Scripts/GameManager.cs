@@ -15,11 +15,17 @@ public class GameManager : MonoBehaviour {
     private CameraFollow cameraFollow;
     [SerializeField]
     private EndScreen endScreen;
+    [SerializeField]
+    private HUD hud;
 
     [SerializeField]
     private Player playerPrefab;
+    [SerializeField]
+    private CritterImage critterImagePrefab;
 
     private List<Critter> critters;
+
+    private List<RenderTexture> critterImages;
 
     private Color[] critterColours = new Color[] { Color.red, Color.blue, Color.green, Color.yellow, Color.black, Color.white, Color.cyan, Color.grey};
 
@@ -34,6 +40,7 @@ public class GameManager : MonoBehaviour {
     {
         critters = new List<Critter>();
         endScreen.gameObject.SetActive(false);
+        critterImages = new List<RenderTexture>();
     }
 
     // Update is called once per frame
@@ -48,6 +55,10 @@ public class GameManager : MonoBehaviour {
         {
             critter.SetColour(critterColours[critters.Count - 1]);
         }
+        critter.id = critters.Count - 1;
+        critterImages.Add(new RenderTexture(256, 256, 16));
+        CritterImage newImage = Instantiate(critterImagePrefab, new Vector3((critter.id + 1) * 1000, 0, 0), Quaternion.identity);
+        newImage.SetupImage(critterColours[critter.id], critterImages[critter.id]);
     }
 
     public void Finished()
@@ -99,5 +110,15 @@ public class GameManager : MonoBehaviour {
     {
         ResumeGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void CollectedCritter(Critter critter)
+    {
+        hud.AddCritterImage(critter.id, critterImages[critter.id]);
+    }
+
+    public void KilledCritter(Critter critter)
+    {
+        hud.RemoveCritterImage(critter.id);
     }
 }

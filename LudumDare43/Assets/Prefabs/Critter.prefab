@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 195062823575332030}
   - component: {fileID: 114017215025284748}
   - component: {fileID: 54395293612300250}
+  - component: {fileID: 65913853902108044}
   m_Layer: 9
   m_Name: Critter
   m_TagString: Untagged
@@ -163,6 +164,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &65913853902108044
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543070426413998}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!114 &114017215025284748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 23269653002996590}
+  id: 0
 --- !u!195 &195062823575332030
 NavMeshAgent:
   m_ObjectHideFlags: 1
