@@ -7,7 +7,8 @@ public class Interactable : MonoBehaviour {
 
     private static Dictionary<string, string> inputToText = new Dictionary<string, string>()
     {
-        {"Interact", "E" }
+        {"Interact", "E" },
+        {"CritterInteract", "Q" }
     };
 
     [SerializeField]
@@ -60,6 +61,9 @@ public class Interactable : MonoBehaviour {
 
     private void OnDisable()
     {
-        buttonPromptCanvas.gameObject.SetActive(false);
+        if (buttonPromptCanvas != null)
+        {
+            buttonPromptCanvas.gameObject.SetActive(false);
+        }
     }
 }

@@ -8,13 +8,18 @@ public class Player : MonoBehaviour {
     private float walkSpeed = 2.0f;
     [SerializeField]
     private float jumpSpeed = 2.0f;
+    [SerializeField]
+    private float throwStrength = 2.0f;
+
+    [SerializeField]
+    private Transform hand;
 
     private CharacterController cc;
     private Camera mainCamera;
 
     private Vector3 movementVector;
 
-    private List<Critter> followingCritters;
+    private Critter heldCritter;
 
     private void Awake()
     {
@@ -25,11 +30,19 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         movementVector = new Vector3();
-        followingCritters = new List<Critter>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        UpdateMovement();
+        if(Input.GetButtonDown("CritterInteract") && heldCritter != null)
+        {
+            ThrowCritter();
+        }
+    }
+
+    private void UpdateMovement()
+    {
         Vector3 inputVector = new Vector3();
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.z = Input.GetAxis("Vertical");
@@ -46,7 +59,7 @@ public class Player : MonoBehaviour {
         // Rotate player to face the direction they are moving.
         RotatePlayer(inputVector);
 
-        if(Input.GetButtonDown("Jump") && cc.isGrounded)
+        if (Input.GetButtonDown("Jump") && cc.isGrounded)
         {
             movementVector.y = jumpSpeed;
         }
@@ -72,13 +85,17 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void AddNewCritter(Critter critter)
+    public void PickUpCritter(Critter critter)
     {
-        followingCritters.Add(critter);
+        critter.transform.position = hand.position;
+        critter.transform.parent = hand;
+        heldCritter = critter;
     }
 
-    public int GetFollowingCrittersCount()
+    private void ThrowCritter()
     {
-        return followingCritters.Count;
+        heldCritter.transform.parent = null;
+        heldCritter.Throw(transform.TransformVector((new Vector3(0, 1.1f, 2))) * throwStrength);
+        heldCritter = null;
     }
 }

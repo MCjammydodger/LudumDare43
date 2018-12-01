@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4613900736453816}
   - component: {fileID: 33143805419671704}
   - component: {fileID: 23076902060252452}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 143597800820830898}
   - component: {fileID: 114732880175483058}
   - component: {fileID: 208753603118109544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 33498464837074252}
   - component: {fileID: 65681963580040354}
   - component: {fileID: 23130260781678982}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,6 +212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 10
   jumpSpeed: 2
+  throwStrength: 10
+  hand: {fileID: 4613900736453816}
 --- !u!143 &143597800820830898
 CharacterController:
   m_ObjectHideFlags: 1

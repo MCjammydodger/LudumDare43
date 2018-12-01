@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour {
                     trapped++;
                     break;
                 case Critter.State.FOLLOWING:
+                case Critter.State.HELD:
                     saved++;
                     break;
                 case Critter.State.DEAD:
