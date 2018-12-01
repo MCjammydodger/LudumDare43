@@ -114,11 +114,11 @@ public class GameManager : MonoBehaviour {
 
     public void CollectedCritter(Critter critter)
     {
-        hud.AddCritterImage(critter.id, critterImages[critter.id]);
+        hud.AddCritterImage(critter.id, critterImages[critter.id], critter.GetHealth());
     }
 
-    public void KilledCritter(Critter critter)
+    public void UpdateCritterHealth(Critter critter)
     {
-        hud.RemoveCritterImage(critter.id);
+        hud.SetHealth(critter.id, critter.GetHealth());
     }
 }

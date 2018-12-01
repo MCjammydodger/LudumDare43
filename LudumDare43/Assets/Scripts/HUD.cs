@@ -17,16 +17,23 @@ public class HUD : MonoBehaviour {
     {
         images = new Dictionary<int, RawImage>();
     }
-    public void AddCritterImage(int id, RenderTexture renderTexture)
+    public void AddCritterImage(int id, RenderTexture renderTexture, int maxHealth)
     {
         images.Add(id, Instantiate(imagePrefab, critterList));
         images[id].texture = renderTexture;
+        images[id].GetComponent<Slider>().maxValue = maxHealth;
+        images[id].GetComponent<Slider>().value = 0;
     }
 
     public void RemoveCritterImage(int id)
     {
-        //Destroy(images[id].gameObject);
-        //images.Remove(id);
-        images[id].color = Color.red;
+        Destroy(images[id].gameObject);
+        images.Remove(id);
+    }
+
+    public void SetHealth(int id, int health)
+    {
+        Slider slider = images[id].GetComponent<Slider>();
+        slider.value = slider.maxValue-health;
     }
 }

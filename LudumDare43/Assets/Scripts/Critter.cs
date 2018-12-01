@@ -102,12 +102,17 @@ public class Critter : MonoBehaviour {
         if (currentState == State.HELD)
         {
             health--;
+            GameManager.instance.UpdateCritterHealth(this);
             if (health <= 0)
             {
                 currentState = State.DEAD;
-                GameManager.instance.KilledCritter(this);
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }
