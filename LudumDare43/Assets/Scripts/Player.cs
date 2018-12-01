@@ -76,22 +76,26 @@ public class Player : MonoBehaviour {
         // Rotate player to face the direction they are moving.
         RotatePlayer(inputVector);
 
-        animator.SetFloat("Speed", movementVector.sqrMagnitude);
+        animator.SetFloat("Speed", inputVector.sqrMagnitude);
 
-        if (Input.GetButtonDown("Jump") && cc.isGrounded)
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             movementVector.y = jumpSpeed;
         }
         // Add gravity to the player's movement.
-        if (!cc.isGrounded)
+        if (!IsGrounded())
         {
             movementVector += Physics.gravity * Time.deltaTime;
         }
-
         movementVector.x = inputVector.x;
         movementVector.z = inputVector.z;
 
         cc.Move(movementVector * walkSpeed * Time.deltaTime);
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, 0.1f);    
     }
 
     private void RotatePlayer(Vector3 movementVector)

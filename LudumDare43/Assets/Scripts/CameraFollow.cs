@@ -10,12 +10,11 @@ public class CameraFollow : MonoBehaviour {
 
     private void Awake()
     {
-        offset = transform.position;
     }
 
     // Use this for initialization
     void Start () {
-		
+        offset = transform.position - GameManager.instance.GetPlayerSpawnPoint().position;		
 	}
 	
 	// Update is called once per frame

@@ -601,36 +601,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 224417974077580024, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415482155682030, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_ChildForceExpandHeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415482155682030, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_ChildControlHeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415482155682030, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_ChildForceExpandWidth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415482155682030, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_ChildControlWidth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114415482155682030, guid: 2a98050a204730f4fa49de3bcf2a754c,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a98050a204730f4fa49de3bcf2a754c, type: 2}
   m_IsPrefabParent: 0

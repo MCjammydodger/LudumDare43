@@ -44,6 +44,10 @@ public class Critter : MonoBehaviour {
         if (currentState == State.FOLLOWING)
         {
             navAgent.SetDestination(player.transform.position);
+            if(Vector3.Distance(player.transform.position, transform.position) > 15)
+            {
+                navAgent.Warp(player.transform.position);
+            }
         }
 
         if(currentState == State.HELD)

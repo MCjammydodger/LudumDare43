@@ -121,4 +121,9 @@ public class GameManager : MonoBehaviour {
     {
         hud.SetHealth(critter.id, critter.GetHealth());
     }
+
+    public Transform GetPlayerSpawnPoint()
+    {
+        return playerSpawnPoint;
+    }
 }
