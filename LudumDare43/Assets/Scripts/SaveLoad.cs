@@ -37,4 +37,14 @@ public class SaveLoad : MonoBehaviour {
     {
         PlayerPrefs.SetInt(key, Mathf.Max(value, PlayerPrefs.GetInt(key, -1)));
     }
+
+    public static bool HasSaveData()
+    {
+        return PlayerPrefs.HasKey("Level1completed");
+    }
+
+    public static void DeleteData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

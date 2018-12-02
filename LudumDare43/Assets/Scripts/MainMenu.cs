@@ -10,6 +10,9 @@ public class MainMenu : MonoBehaviour {
     private int numberOfLevels;
 
     [SerializeField]
+    private GameObject deleteButton;
+
+    [SerializeField]
     private Text levelName;
     [SerializeField]
     private Text levelStats;
@@ -25,19 +28,33 @@ public class MainMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		for(int i = 1; i < numberOfLevels+1; i++)
+        RefreshMenu();
+	}
+	
+    private void RefreshMenu()
+    {
+        if(SaveLoad.HasSaveData())
+        {
+            deleteButton.SetActive(true);
+        }
+        else
+        {
+            deleteButton.SetActive(false);
+        }
+        for(int i = 0; i < levelList.childCount; i++)
+        {
+            Destroy(levelList.GetChild(i).gameObject);
+        }
+        for (int i = 1; i < numberOfLevels + 1; i++)
         {
             LevelButton button = Instantiate(buttonPrefab, levelList);
             levelDatas.Add(SaveLoad.LoadLevel(i));
-            button.SetupButton(i, "Level " + i, levelDatas[i-1].completed, CalculateLevelPercentage(levelDatas[i-1]), this);
+            bool prevCompleted = i == 1 ? true : SaveLoad.LoadLevel(i-1).completed;
+            
+            button.SetupButton(i, "Level " + i, levelDatas[i - 1].completed, CalculateLevelPercentage(levelDatas[i - 1]), this, prevCompleted);
         }
         ShowLevelInfo(1);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 
     private int CalculateLevelPercentage(SaveLoad.LevelData data)
     {
@@ -63,5 +80,11 @@ public class MainMenu : MonoBehaviour {
     public void PlayLevel()
     {
         SceneManager.LoadScene(currentLevel);
+    }
+
+    public void Delete()
+    {
+        SaveLoad.DeleteData();
+        RefreshMenu();
     }
 }

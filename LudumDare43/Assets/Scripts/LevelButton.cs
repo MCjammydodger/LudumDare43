@@ -12,19 +12,19 @@ public class LevelButton : MonoBehaviour {
     private MainMenu mainMenu;
     private int levelNumber;
 
-    private void Awake()
+    public void SetupButton(int number, string levelName, bool completed, int percentComplete, MainMenu menu, bool prevCompleted)
     {
         button = GetComponent<UnityEngine.UI.Button>();
-    }
-
-    public void SetupButton(int number, string levelName, bool completed, int percentComplete, MainMenu menu)
-    {
         ColorBlock colours = button.colors;
         colours.normalColor = completed ? Color.green : Color.red;
         button.colors = colours;
         levelText.text = levelName + "\n" + percentComplete.ToString() + "%";
         mainMenu = menu;
         levelNumber = number;
+        if(!prevCompleted)
+        {
+            button.interactable = false;
+        }
     }
 
     public void OnButtonPressed()
