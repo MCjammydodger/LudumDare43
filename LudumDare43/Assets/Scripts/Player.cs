@@ -61,6 +61,13 @@ public class Player : MonoBehaviour {
         {
             ThrowCritter();
         }
+        if(Input.GetButtonDown("DropCritter") && heldCritter != null)
+        {
+            heldCritter.transform.parent = null;
+            heldCritter.HeldToFollow();
+            lineRenderer.enabled = false;
+            heldCritter = null;
+        }
     }
 
     private void FixedUpdate()

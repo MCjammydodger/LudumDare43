@@ -102,7 +102,7 @@ public class Critter : MonoBehaviour {
         timeSinceLastCollision += Time.deltaTime;
 	}
 
-    private void HeldToFollow()
+    public void HeldToFollow()
     {
         rb.isKinematic = true;
         currentState = State.FOLLOWING;
