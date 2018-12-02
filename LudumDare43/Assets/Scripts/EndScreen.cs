@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EndScreen : MonoBehaviour {
 
     [SerializeField]
-    private Text totalCritters;
+    private Text foundCritters;
     [SerializeField]
     private Text savedCritters;
     [SerializeField]
@@ -14,11 +14,11 @@ public class EndScreen : MonoBehaviour {
     [SerializeField]
     private Text sacrificedCritters;
 
-	public void SetStats(int total, int saved, int trapped, int sacrificed)
+	public void SetStats(int total, int saved, int trapped, int sacrificed, int found)
     {
-        totalCritters.text = total.ToString();
-        savedCritters.text = saved.ToString();
-        trappedCritters.text = trapped.ToString();
-        sacrificedCritters.text = sacrificed.ToString();
+        foundCritters.text = found + "/" + total;
+        savedCritters.text = saved + "/" + total;
+        trappedCritters.text = trapped + "/" + total;
+        sacrificedCritters.text = sacrificed + "/" + total;
     }
 }

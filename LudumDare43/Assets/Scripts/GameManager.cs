@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
     private EndScreen endScreen;
     [SerializeField]
     private HUD hud;
+    [SerializeField]
+    private GameObject pauseScreen;
 
     [SerializeField]
     private Player playerPrefab;
@@ -41,11 +43,24 @@ public class GameManager : MonoBehaviour {
         critters = new List<Critter>();
         endScreen.gameObject.SetActive(false);
         critterImages = new List<RenderTexture>();
+        pauseScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update () {
-		
+		if(!endScreen.gameObject.activeSelf && Input.GetButtonDown("Pause"))
+        {
+            if(IsGamePaused())
+            {
+                pauseScreen.SetActive(false);
+                ResumeGame();
+            }
+            else
+            {
+                pauseScreen.SetActive(true);
+                PauseGame();
+            }
+        }
 	}
 
     public void RegisterCritter(Critter critter)
@@ -92,7 +107,7 @@ public class GameManager : MonoBehaviour {
         data.foundCritters = found;
         data.savedCritters = saved;
         SaveLoad.SaveLevel(data);
-        endScreen.SetStats(critters.Count, saved, trapped, sacrificed);
+        endScreen.SetStats(critters.Count, saved, trapped, sacrificed, found);
         endScreen.gameObject.SetActive(true);
     }
 
