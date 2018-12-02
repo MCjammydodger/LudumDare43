@@ -20,6 +20,7 @@ public class Cage : MonoBehaviour {
     // Use this for initialization
     void Start () {
         critter = Instantiate(critterPrefab, critterSpawnPoint.position, critterSpawnPoint.rotation);
+        critter.transform.parent = transform;
 	}
 	
 	// Update is called once per frame

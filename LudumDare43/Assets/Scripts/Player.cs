@@ -11,6 +11,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float throwStrength = 2.0f;
     [SerializeField]
+    private float sinkSpeed = 2.0f;
+    [SerializeField]
     private LineRenderer lineRenderer;
     [SerializeField]
     Animator animator;
@@ -27,6 +29,9 @@ public class Player : MonoBehaviour {
 
     private Vector3 throwDirection = new Vector3(0, 1.1f, 2);
 
+    private bool sinking = false;
+    private float sinkBottom;
+
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
@@ -41,6 +46,15 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(sinking)
+        {
+            transform.position -= Vector3.up * sinkSpeed * Time.deltaTime;
+            if(transform.position.y < sinkBottom)
+            {
+                Die();
+            }
+            return;
+        }
         UpdateMovement();
 
         if(Input.GetButtonDown("CritterInteract") && heldCritter != null)
@@ -145,5 +159,22 @@ public class Player : MonoBehaviour {
         heldCritter = null;
         lineRenderer.enabled = false;
         animator.SetTrigger("Throw");
+    }
+
+    public void Die()
+    {
+        transform.position = GameManager.instance.GetPlayerSpawnPoint().position;
+        cc.enabled = true;
+        sinking = false;
+    }
+
+    public void Sink()
+    {
+        if(!sinking)
+        {
+            sinking = true;
+            sinkBottom = transform.position.y - 2;
+            cc.enabled = false;
+        }
     }
 }

@@ -24,6 +24,10 @@ public class Critter : MonoBehaviour {
     private float timeSinceThrown = 0;
     private float timeSinceLastCollision = 0;
 
+    private bool sinking;
+    private float sinkBottom;
+    private float sinkSpeed;
+
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
@@ -37,6 +41,7 @@ public class Critter : MonoBehaviour {
         player = GameManager.instance.Player;
         GameManager.instance.RegisterCritter(this);
         interactable.enabled = false;
+        navAgent.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -68,6 +73,15 @@ public class Critter : MonoBehaviour {
 
         if(currentState == State.HELD)
         {
+            if(sinking)
+            {
+                transform.position -= Vector3.up * sinkSpeed * Time.deltaTime;
+                if(transform.position.y < sinkBottom)
+                {
+                    SetHealth(0);
+                }
+                return;
+            }
             if (!rb.isKinematic)
             {
                 timeSinceThrown += Time.deltaTime;
@@ -99,9 +113,11 @@ public class Critter : MonoBehaviour {
 
     public void Free()
     {
+        transform.parent = null;
         currentState = State.FOLLOWING;
         interactable.enabled = true;
         GameManager.instance.CollectedCritter(this);
+        navAgent.enabled = true;
     }
 
     public State GetCurrentState()
@@ -136,21 +152,48 @@ public class Critter : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         // Don't deal damage if damage was just done, since it's probably just colliding with the same object again.
-        if (currentState == State.HELD && timeSinceLastCollision > 1)
+        if (currentState == State.HELD && timeSinceLastCollision > 1 && !sinking)
         {
             timeSinceLastCollision = 0;
-            health--;
-            GameManager.instance.UpdateCritterHealth(this);
-            if (health <= 0)
-            {
-                currentState = State.DEAD;
-                gameObject.SetActive(false);
-            }
+            SetHealth(health - 1);           
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (currentState == State.HELD && !sinking)
+        {
+            Water water = other.GetComponent<Water>();
+            if (water != null)
+            {
+                Sink();
+            }
+        }
+    }
     public int GetHealth()
     {
         return health;
+    }
+
+    public void Sink()
+    {
+        if (!sinking)
+        {
+            sinking = true;
+            sinkBottom = transform.position.y - 2;
+            GetComponent<Collider>().enabled = false;
+            rb.isKinematic = true;
+        }
+    }
+
+    private void SetHealth(int h)
+    {
+        health = h;
+        GameManager.instance.UpdateCritterHealth(this);
+        if (health <= 0)
+        {
+            currentState = State.DEAD;
+            gameObject.SetActive(false);
+        }
     }
 }

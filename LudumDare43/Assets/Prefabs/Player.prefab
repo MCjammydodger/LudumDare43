@@ -545,7 +545,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1382724665450974}
-  m_LocalRotation: {x: 0.068793595, y: 0.70375234, z: 0.7037526, w: 0.068793565}
+  m_LocalRotation: {x: 0.06879359, y: 0.7037523, z: 0.7037525, w: 0.06879356}
   m_LocalPosition: {x: 0.15745829, y: -0.25847435, z: -0.0045522824}
   m_LocalScale: {x: 1, y: 0.9999995, z: 1}
   m_Children:
@@ -899,7 +899,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 10
   jumpSpeed: 2
-  throwStrength: 10
+  throwStrength: 6
+  sinkSpeed: 2
   lineRenderer: {fileID: 120483941675005328}
   animator: {fileID: 95900556452622806}
   hand: {fileID: 4620864981315680}
