@@ -327,7 +327,8 @@ MonoBehaviour:
     image: {fileID: 0}
     title: Throwing Critters
     info: To pick up a critter, walk up to it and press Q (X on controller). Once
-      held you can throw them. Just aim where you want to and press Q again.
+      held you can throw them. Just aim where you want to and press Q again. To drop
+      a critter without throwing press C (B on controller).
   - type: 4
     image: {fileID: 2800000, guid: 41b77a7655b85724383ffb10f131f02c, type: 3}
     title: Levers
@@ -355,6 +356,25 @@ MonoBehaviour:
     title: Traps
     info: This is a trap. If you throw a critter into one it will be stuck there until
       you can find a way to disable them.
+  - type: 9
+    image: {fileID: 0}
+    title: Controls
+    info: 'Move - WASD / Left analog stick.
+
+      Jump - Space / A
+
+      Interact - E / Y
+
+      Pick up critter - Q / X
+
+      Throw critter - Q / X
+
+      Drop critter - C / B
+
+      Pause - P / Start
+
+
+'
 --- !u!114 &114315353920231352
 MonoBehaviour:
   m_ObjectHideFlags: 1

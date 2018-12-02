@@ -13,7 +13,7 @@ public class HelpPanel : MonoBehaviour {
     [SerializeField]
     private Text info;
 
-    public enum HelpType { GOAL, CRITTERS, CAGE, PICK_UP, LEVERS, BUTTONS, SACRIFICE, WATER, TRAPS}
+    public enum HelpType { GOAL, CRITTERS, CAGE, PICK_UP, LEVERS, BUTTONS, SACRIFICE, WATER, TRAPS, CONTROLS}
 
     [Serializable]
     public class Help
