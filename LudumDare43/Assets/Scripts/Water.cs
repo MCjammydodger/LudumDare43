@@ -10,5 +10,9 @@ public class Water : MonoBehaviour {
         {
             other.GetComponent<Player>().Sink();
         }
+        if(other.GetComponent<Critter>() != null)
+        {
+            other.GetComponent<Critter>().Sink();
+        }
     }
 }

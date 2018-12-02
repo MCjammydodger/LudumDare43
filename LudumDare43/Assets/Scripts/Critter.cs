@@ -26,7 +26,9 @@ public class Critter : MonoBehaviour {
 
     private bool sinking;
     private float sinkBottom;
-    private float sinkSpeed;
+    private float sinkSpeed = 2;
+
+    private bool found;
 
     private void Awake()
     {
@@ -37,11 +39,9 @@ public class Critter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        currentState = State.TRAPPED;
         player = GameManager.instance.Player;
         GameManager.instance.RegisterCritter(this);
-        interactable.enabled = false;
-        navAgent.enabled = false;
+        Trap();
 	}
 	
 	// Update is called once per frame
@@ -116,8 +116,12 @@ public class Critter : MonoBehaviour {
         transform.parent = null;
         currentState = State.FOLLOWING;
         interactable.enabled = true;
-        GameManager.instance.CollectedCritter(this);
+        if (!found)
+        {
+            GameManager.instance.CollectedCritter(this);
+        }
         navAgent.enabled = true;
+        found = true;
     }
 
     public State GetCurrentState()
@@ -159,17 +163,6 @@ public class Critter : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (currentState == State.HELD && !sinking)
-        {
-            Water water = other.GetComponent<Water>();
-            if (water != null)
-            {
-                Sink();
-            }
-        }
-    }
     public int GetHealth()
     {
         return health;
@@ -177,7 +170,7 @@ public class Critter : MonoBehaviour {
 
     public void Sink()
     {
-        if (!sinking)
+        if (IsBeingThrown() && !sinking)
         {
             sinking = true;
             sinkBottom = transform.position.y - 2;
@@ -195,5 +188,23 @@ public class Critter : MonoBehaviour {
             currentState = State.DEAD;
             gameObject.SetActive(false);
         }
+    }
+
+    public void Trap()
+    {
+        interactable.enabled = false;
+        navAgent.enabled = false;
+        rb.isKinematic = true;
+        currentState = State.TRAPPED;
+    }
+
+    public bool IsFound()
+    {
+        return found;
+    }
+
+    public bool IsBeingThrown()
+    {
+        return currentState == State.HELD && !rb.isKinematic;
     }
 }

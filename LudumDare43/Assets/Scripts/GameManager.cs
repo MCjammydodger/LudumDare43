@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
     public void Finished()
     {
         PauseGame();
-        int saved = 0, trapped = 0, sacrificed = 0;
+        int saved = 0, trapped = 0, sacrificed = 0, found = 0;
         foreach(Critter critter in critters)
         {
             switch(critter.GetCurrentState())
@@ -80,12 +80,16 @@ public class GameManager : MonoBehaviour {
                     sacrificed++;
                     break;
             }
+            if(critter.IsFound())
+            {
+                found++;
+            }
         }
         SaveLoad.LevelData data = new SaveLoad.LevelData();
         data.levelNumber = SceneManager.GetActiveScene().buildIndex;
         data.completed = true;
         data.totalCritters = critters.Count;
-        data.foundCritters = critters.Count - trapped;
+        data.foundCritters = found;
         data.savedCritters = saved;
         SaveLoad.SaveLevel(data);
         endScreen.SetStats(critters.Count, saved, trapped, sacrificed);

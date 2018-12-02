@@ -7,11 +7,22 @@ public class Button : MonoBehaviour {
 
     public UnityEvent OnButtonPressed;
 
+    private float timeSinceLastPressed = 0;
+
     private void OnCollisionEnter(Collision collision)
     {
-        if(OnButtonPressed!=null)
+        if (timeSinceLastPressed > 1)
         {
-            OnButtonPressed.Invoke();
+            timeSinceLastPressed = 0;
+            if (OnButtonPressed != null)
+            {
+                OnButtonPressed.Invoke();
+            }
         }
+    }
+
+    private void Update()
+    {
+        timeSinceLastPressed += Time.deltaTime;
     }
 }
